@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"log"
@@ -7,17 +7,17 @@ import (
 )
 
 type Config struct {
-	Timezone string
-	DueDay int
-	GroupID string
-	AmountTHB string
-	MessageTemplate string
-	LineAccessToken string
+	Timezone          string
+	DueDay            int
+	GroupID           string
+	AmountTHB         string
+	MessageTemplate   string
+	LineAccessToken   string
 	LineChannelSecret string
-	FirestoreProjectID string
+	ProjectID         string
 }
 
-func getenv(k, def string) string{
+func getenv(k, def string) string {
 	v := os.Getenv(k)
 	if v == "" {
 		return def
@@ -25,13 +25,14 @@ func getenv(k, def string) string{
 	return v
 }
 
-func mustInt (s string) int{
+func mustInt(s string) int {
 	i, err := strconv.Atoi(s)
-	if err != nil{
+	if err != nil {
 		log.Fatalf("invalid int: %s", s)
 	}
 	return i
 }
+
 
 func mustConfig () Config{
 	tz := getenv("TIMEZONE", "Asia/Bangkok")
@@ -58,10 +59,6 @@ func mustConfig () Config{
 		MessageTemplate: getenv("MESSAGE_TEMPLATE", "อย่าลืมจ่ายค่า Apple One เดือนนี้ %s บาทนะครับ 🙏"),
 		LineAccessToken: lineToken,
 		LineChannelSecret: os.Getenv("LINE_CHANNEL_SECRET"),
-		FirestoreProjectID: projectID,		
+		ProjectID: projectID,		
 	}
-}
-
-func main() {
-	cfg := mustConfig()
 }
